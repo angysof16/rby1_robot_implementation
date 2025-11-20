@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rby">
+
+    <xacro:include filename="$(find urdf_rby)/urdf/robots/rby.urdf.xacro" />
+    <xacro:include filename="$(find gazebo_rby)/urdf/sensors/lidar_gazebo.urdf.xacro" />
+
+    <!-- Instantiate the robot -->
+    <xacro:rby name="rby" use_sensors="true" />
+
+    <!-- Add Gazebo-specific sensor tags -->
+    <xacro:lidar_gazebo frame="lidar_link" topic_name="scan" sensor_name="lidar_sensor" />
+
+    <!-- Macro para aplicar propiedades a todos los joints -->
+    <xacro:macro name="add_joint_properties">
+        <xacro:gazebo_joint_properties joint="torso_0" />
+        <xacro:gazebo_joint_properties joint="torso_1" />
+        <xacro:gazebo_joint_properties joint="torso_2" />
+        <xacro:gazebo_joint_properties joint="torso_3" />
+        <xacro:gazebo_joint_properties joint="torso_4" />
+        <xacro:gazebo_joint_properties joint="torso_5" />
+        <xacro:gazebo_joint_properties joint="left_wheel" />
+        <xacro:gazebo_joint_properties joint="right_wheel" />
+        <xacro:gazebo_joint_properties joint="right_arm_0" />
+        <xacro:gazebo_joint_properties joint="right_arm_1" />
+        <xacro:gazebo_joint_properties joint="right_arm_2" />
+        <xacro:gazebo_joint_properties joint="right_arm_3" />
+        <xacro:gazebo_joint_properties joint="right_arm_4" />
+        <xacro:gazebo_joint_properties joint="right_arm_5" />
+        <xacro:gazebo_joint_properties joint="right_arm_6" />
+        <xacro:gazebo_joint_properties joint="left_arm_0" />
+        <xacro:gazebo_joint_properties joint="left_arm_1" />
+        <xacro:gazebo_joint_properties joint="left_arm_2" />
+        <xacro:gazebo_joint_properties joint="left_arm_3" />
+        <xacro:gazebo_joint_properties joint="left_arm_4" />
+        <xacro:gazebo_joint_properties joint="left_arm_5" />
+        <xacro:gazebo_joint_properties joint="left_arm_6" />
+        <xacro:gazebo_joint_properties joint="tool_right" />
+        <xacro:gazebo_joint_properties joint="FT_Sensor_END_right" />
+        <xacro:gazebo_joint_properties joint="gripper_finger_r1" />
+        <xacro:gazebo_joint_properties joint="gripper_finger_r2" />
+        <xacro:gazebo_joint_properties joint="tool_left" />
+        <xacro:gazebo_joint_properties joint="FT_Sensor_END_left" />
+        <xacro:gazebo_joint_properties joint="gripper_finger_l1" />
+        <xacro:gazebo_joint_properties joint="gripper_finger_l2" />
+        <xacro:gazebo_joint_properties joint="head_base" />
+        <xacro:gazebo_joint_properties joint="head_0" />
+        <xacro:gazebo_joint_properties joint="head_1" />
+        <xacro:gazebo_joint_properties joint="lidar" />
+    </xacro:macro>
+
+    <xacro:macro name="gazebo_joint_properties" params="joint">
+        <gazebo reference="${joint}">
+            <stopCfm>0.1</stopCfm>
+            <stopErp>0.8</stopErp>
+            <implicitSpringDamper>true</implicitSpringDamper>
+        </gazebo>
+    </xacro:macro>
+
+    <!-- Llamar el macro -->
+    <xacro:add_joint_properties />
+
+
+    <!-- Plugin de GAZEBO HARMONIC -->
+    <gazebo>
+        <plugin
+            name="gz_ros2_control::GazeboSimROS2ControlPlugin"
+            filename="libgz_ros2_control-gz_plugin_system.so">
+            <ros2_control>
+                <param name="robot_description">robot_description</param>
+            </ros2_control>
+        </plugin>
+    </gazebo>
+
+    <!-- ros2_control hardware -->
+    <ros2_control name="rby_system" type="system">
+        <hardware>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </hardware>
+
+        <!-- LEFT WHEEL -->
+        <joint name="left_wheel">
+            <command_interface name="velocity" />
+            <state_interface name="velocity" />
+            <state_interface name="position" />
+        </joint>
+
+        <!-- RIGHT WHEEL -->
+        <joint name="right_wheel">
+            <command_interface name="velocity" />
+            <state_interface name="velocity" />
+            <state_interface name="position" />
+        </joint>
+
+    </ros2_control>
+
+
+</robot>

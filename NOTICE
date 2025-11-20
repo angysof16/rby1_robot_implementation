@@ -1,0 +1,11 @@
+RB-Y1 Robot Implementation with LIDAR, Camera, SLAM, and NAV2
+Copyright 2025 Sofia Guerra Jiménez
+
+This project contains meshes and resources from Rainbow Robotics RB-Y1
+Copyright 2024-2025 Rainbow Robotics
+
+This project uses DynamixelSDK
+Copyright [2024] DynamixelSDK Contributors
+
+Licensed under Apache License, Version 2.0
+See LICENSE file for full license text.
