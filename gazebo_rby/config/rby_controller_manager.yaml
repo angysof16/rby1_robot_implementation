@@ -1,0 +1,167 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+joint_trajectory_controller_head:
+  ros__parameters:
+    type: joint_trajectory_controller/JointTrajectoryController
+    joints:
+      - head_0
+      - head_1
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    action_monitor_rate: 20.0 # Defaults to 20
+
+    allow_partial_joints_goal: false # Defaults to false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately)
+
+joint_trajectory_controller_left_arm:
+  ros__parameters:
+    type: joint_trajectory_controller/JointTrajectoryController
+    joints:
+      - left_arm_0
+      - left_arm_1
+      - left_arm_2
+      - left_arm_3
+      - left_arm_4
+      - left_arm_5
+      - left_arm_6
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+    action_monitor_rate: 20.0 # Defaults to 20
+
+    allow_partial_joints_goal: false # Defaults to false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately)
+
+joint_trajectory_controller_right_arm:
+  ros__parameters:
+    type: joint_trajectory_controller/JointTrajectoryController
+    joints:
+      - right_arm_0
+      - right_arm_1
+      - right_arm_2
+      - right_arm_3
+      - right_arm_4
+      - right_arm_5
+      - right_arm_6
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+    action_monitor_rate: 20.0 # Defaults to 20 
+    allow_partial_joints_goal: false # Defaults to false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately) 
+
+
+joint_trajectory_controller_left_gripper:
+  ros__parameters:
+    type: joint_trajectory_controller/JointTrajectoryController
+    joints:
+      - gripper_finger_l1
+      - gripper_finger_l2
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+    action_monitor_rate: 20.0 # Defaults to 20
+
+    allow_partial_joints_goal: false # Defaults to false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately)
+
+joint_trajectory_controller_right_gripper:
+  ros__parameters:
+    type: joint_trajectory_controller/JointTrajectoryController
+    joints:
+      - gripper_finger_r1
+      - gripper_finger_r2
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+    action_monitor_rate: 20.0 # Defaults to 20
+    allow_partial_joints_goal: false # Defaults to false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately)
+
+
+joint_trajectory_controller_torso:
+  ros__parameters:
+    type: joint_trajectory_controller/JointTrajectoryController
+    joints:
+      - torso_0
+      - torso_1
+      - torso_2
+      - torso_3
+      - torso_4
+      - torso_5
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+    action_monitor_rate: 20.0 # Defaults to 20
+
+    allow_partial_joints_goal: false # Defaults to false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately)
+
+
+joint_trajectory_controller_wheel:
+  ros__parameters:
+    type: joint_trajectory_controller/JointTrajectoryController
+    joints:
+      - left_wheel
+      - right_wheel
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+    action_monitor_rate: 20.0 # Defaults to 20
+
+    allow_partial_joints_goal: false # Defaults to false
+    interpolate_from_desired_state: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately)
