@@ -10,7 +10,6 @@ from xacro import process_file
 from nav2_common.launch import ReplaceString
 
 ARGUMENTS = [
-    # DeclareLaunchArgument('world_name', default_value='empty.sdf', description='Name of the world to load. Match with map if using Nav2.'),
     DeclareLaunchArgument('world_name', default_value='maze.sdf', description='Name of the world to load. Match with map if using Nav2.'),
     DeclareLaunchArgument('ros_bridge', default_value='True', description='Run ROS bridge node.'),
     DeclareLaunchArgument('initial_pose_x', default_value='0.5', description='Initial x pose of rasbot in the simulation.'),
@@ -20,19 +19,14 @@ ARGUMENTS = [
     DeclareLaunchArgument('robot_description_topic', default_value='robot_description', description='Robot description topic.'),
     DeclareLaunchArgument('rsp_frequency', default_value='30.0', description='Robot State Publisher frequency.'),
     DeclareLaunchArgument('use_sim_time', default_value='true', description='Use simulation (Gazebo) clock if true'),
-    DeclareLaunchArgument('entity', default_value='r2d2', description='Name of the robot'),
-    DeclareLaunchArgument('robot_description_topic', default_value='robot_description', description='Robot description topic.'),
+    DeclareLaunchArgument('entity', default_value='rby', description='Name of the robot'),
 ]
 
 def get_robot_description():
     gazebo_rby = get_package_share_directory('gazebo_rby')
     pkg_urdf_rby = get_package_share_directory('urdf_rby')
 
-    # CAMBIO ESTA LINEA
-    # robot_description_path = os.path.join(gazebo_rby, 'urdf', 'robot_gz.urdf.xacro')
-    #robot_description_path = os.path.join(gazebo_rby, 'urdf', 'robots', 'baxter_gazebo.urdf.xacro')
     robot_description_path = os.path.join(gazebo_rby, 'urdf', 'robots', 'rby_gazebo.urdf.xacro')
-
 
     mappings = {}
     robot_description_config = process_file(robot_description_path, mappings=mappings)
@@ -52,19 +46,17 @@ def generate_launch_description():
     ros_bridge = LaunchConfiguration('ros_bridge')
     world_path = PathJoinSubstitution([gazebo_rby,'worlds',world_name])
 
-    # CAMBIO ESTA LINEA
-    # bridge_config_file_path = os.path.join(gazebo_rby, 'config', 'bridge_config.yaml')
     bridge_config_file_path = os.path.join(gazebo_rby, 'config', 'ros_gz_bridge.yaml')
+    controllers_config_file_path = os.path.join(gazebo_rby, 'config', 'controllers.yaml')
     
     set_env_vars_resources = AppendEnvironmentVariable(
         'GZ_SIM_RESOURCE_PATH',
-        os.path.join(
-            gazebo_rby,
-            'models'
-        )
+        os.path.join(gazebo_rby, 'models')
     )
 
     ld.add_action(set_env_vars_resources)
+    
+    # Launch Gazebo
     ld.add_action(
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gz_launch_path),
@@ -74,20 +66,23 @@ def generate_launch_description():
             }.items(),
         ),
     )
+    
+    # Clock bridge
     ld.add_action(
         Node(
-                package='ros_gz_bridge',
-                executable='parameter_bridge',
-                arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
-                output='screen',
-                namespace='r2d2',
-                condition=IfCondition(ros_bridge),
-            ),
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+            output='screen',
+            namespace='r2d2',
+            condition=IfCondition(ros_bridge),
+        ),
     )
 
     use_sim_time = LaunchConfiguration('use_sim_time')
     rsp_frequency = LaunchConfiguration('rsp_frequency')
 
+    # Robot State Publisher
     ld.add_action(
         Node(
             package='robot_state_publisher',
@@ -97,7 +92,7 @@ def generate_launch_description():
             parameters=[
                 {
                     'use_sim_time': use_sim_time,
-                    'publish_frequency':  rsp_frequency,
+                    'publish_frequency': rsp_frequency,
                     'robot_description': get_robot_description(),
                 }
             ],
@@ -108,45 +103,49 @@ def generate_launch_description():
         ),
     )
     
-    
-    ########### ros2_control ###########
-
+    ########### ros2_control - Controller Manager ###########
     ld.add_action(
         Node(
-            package="controller_manager",
-            executable="ros2_control_node",
+            package='controller_manager',
+            executable='ros2_control_node',
             parameters=[
-                {'robot_description': get_robot_description()},
-                os.path.join(gazebo_rby, 'config', 'diff_drive.yaml')
+                {'robot_description': get_robot_description(),
+                 'use_sim_time': use_sim_time},
+                controllers_config_file_path
             ],
-            output="screen",
+            output='screen',
         )
     )
 
     ########### joint_state_broadcaster ###########
-
     ld.add_action(
         Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["joint_state_broadcaster"],
-            output="screen",
+            package='controller_manager',
+            executable='spawner',
+            arguments=['joint_state_broadcaster', '-c', '/controller_manager'],
+            output='screen',
         )
     )
 
     ########### diff_drive controller ###########
-
     ld.add_action(
         Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["diff_drive_controller"],
-            output="screen",
+            package='controller_manager',
+            executable='spawner',
+            arguments=['diff_drive_controller', '-c', '/controller_manager'],
+            output='screen',
         )
     )
 
-
-
+    ########### arm position controller ###########
+    ld.add_action(
+        Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['arm_position_controller', '-c', '/controller_manager'],
+            output='screen',
+        )
+    )
 
     entity = LaunchConfiguration('entity')
     initial_pose_x = LaunchConfiguration('initial_pose_x')
@@ -154,6 +153,8 @@ def generate_launch_description():
     initial_pose_z = LaunchConfiguration('initial_pose_z')
     initial_pose_yaw = LaunchConfiguration('initial_pose_yaw')
     robot_description_topic = LaunchConfiguration('robot_description_topic')
+    
+    # Create robot in Gazebo
     ld.add_action(
         Node(
             package='ros_gz_sim',
@@ -171,6 +172,8 @@ def generate_launch_description():
             output='screen',
         )
     )
+    
+    # ROS-Gazebo bridge
     bridge_config = ReplaceString(
         source_file=bridge_config_file_path,
         replacements={'<entity>': entity},
@@ -186,4 +189,5 @@ def generate_launch_description():
             }],
         )
     )
+    
     return ld

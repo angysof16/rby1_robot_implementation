@@ -74,10 +74,10 @@
         </plugin>
     </gazebo>
 
-    <!-- ros2_control hardware - using mock system -->
+    <!-- ros2_control hardware -->
     <ros2_control name="rby_system" type="system">
         <hardware>
-            <plugin>mock_components/GenericSystem</plugin>
+            <plugin>gz_ros2_control::GazeboSimSystem</plugin>
         </hardware>
 
         <!-- WHEELS -->
@@ -93,143 +93,187 @@
             <state_interface name="position" />
         </joint>
 
-        <!-- TORSO JOINTS -->
+        <!-- TORSO JOINTS - Position control with gravity compensation -->
         <joint name="torso_0">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
             <state_interface name="velocity" />
         </joint>
 
         <joint name="torso_1">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
             <state_interface name="velocity" />
         </joint>
 
         <joint name="torso_2">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
             <state_interface name="velocity" />
         </joint>
 
         <joint name="torso_3">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
             <state_interface name="velocity" />
         </joint>
 
         <joint name="torso_4">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
             <state_interface name="velocity" />
         </joint>
 
         <joint name="torso_5">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
             <state_interface name="velocity" />
         </joint>
 
-        <!-- ARM JOINTS (abbreviated for space) -->
+        <!-- RIGHT ARM JOINTS -->
         <joint name="right_arm_0">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="right_arm_1">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="right_arm_2">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="right_arm_3">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="right_arm_4">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="right_arm_5">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="right_arm_6">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
+        <!-- LEFT ARM JOINTS -->
         <joint name="left_arm_0">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="left_arm_1">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="left_arm_2">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="left_arm_3">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="left_arm_4">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="left_arm_5">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="left_arm_6">
             <command_interface name="position" />
+            <command_interface name="velocity" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
-        <!-- HEAD AND GRIPPERS -->
-        <joint name="head_0">
-            <command_interface name="position" />
-            <state_interface name="position" />
-        </joint>
-
-        <joint name="head_1">
-            <command_interface name="position" />
-            <state_interface name="position" />
-        </joint>
-
+        <!-- GRIPPER JOINTS -->
         <joint name="gripper_finger_r1">
             <command_interface name="position" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="gripper_finger_r2">
             <command_interface name="position" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="gripper_finger_l1">
             <command_interface name="position" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
         <joint name="gripper_finger_l2">
             <command_interface name="position" />
             <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <!-- HEAD JOINTS -->
+        <joint name="head_0">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <joint name="head_1">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <state_interface name="position" />
+            <state_interface name="velocity" />
         </joint>
 
     </ros2_control>
