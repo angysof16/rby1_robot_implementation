@@ -24,7 +24,7 @@ from launch.event_handlers import OnProcessExit
 ARGUMENTS = [
     DeclareLaunchArgument(
         "world_name",
-        default_value="maze.sdf",
+        default_value="empty.sdf",
         description="Name of the world to load. Match with map if using Nav2.",
     ),
     DeclareLaunchArgument(
@@ -347,15 +347,6 @@ def generate_launch_description():
             event_handler=OnProcessExit(
                 target_action=joint_state_broadcaster_spawner,
                 on_exit=[rby_controller_spawner_torso],
-            )
-        )
-    )
-    
-    ld.add_action(
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=joint_state_broadcaster_spawner,
-                on_exit=[rby_controller_spawner_wheel],
             )
         )
     )
