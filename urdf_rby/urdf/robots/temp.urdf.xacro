@@ -9,7 +9,7 @@
 
     <!-- Add Gazebo-specific sensor tags -->
     <xacro:lidar_gazebo frame="lidar_link" topic_name="scan" sensor_name="lidar_sensor" />
-
+    
     <!-- Macro para aplicar propiedades a todos los joints -->
     <xacro:macro name="add_joint_properties">
         <xacro:gazebo_joint_properties joint="torso_0" />
