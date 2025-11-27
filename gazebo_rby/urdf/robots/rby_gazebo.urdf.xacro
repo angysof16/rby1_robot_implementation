@@ -364,6 +364,10 @@
         <topic>joint_states</topic>
         <joint_name>left_wheel</joint_name>
         <joint_name>right_wheel</joint_name>
+        <joint_name>left_rear_wheel1</joint_name>
+        <joint_name>left_rear_wheel2</joint_name>
+        <joint_name>right_rear_wheel1</joint_name>
+        <joint_name>right_rear_wheel2</joint_name>
         </plugin>
     </gazebo>
 

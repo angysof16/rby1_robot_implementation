@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rby_A_v1.0">
 
-    
 
     <xacro:macro name="rby" params="name use_sensors:=true">
 
-        <!-- Properties for easy parameter management -->
         <xacro:property name="wheel_base" value="0.53" />
         <xacro:property name="wheel_radius" value="0.1" />
         <xacro:include filename="$(find urdf_rby)/urdf/sensors/lidar.urdf.xacro" />
@@ -21,7 +19,7 @@
             </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://urdf_rby/meshes/base.dae" />
+                    <mesh filename="package://urdf_rby/meshes/untitled.dae" />
                 </geometry>
             </visual>
             <collision>
@@ -71,6 +69,86 @@
                 </geometry>
             </collision>
         </link>
+
+        <link name="wheel_rear_r1">
+            <inertial>
+                <mass value="3.0" />
+                <origin rpy="0 0 0" xyz="0.0 -0.00073938 0.0" />
+                <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                    iyy="0.002" iyz="0.0" izz="0.001" />
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh filename="package://urdf_rby/meshes/WHEEL.dae" scale=".35 .35 .35" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="0.04" length="0.03" />
+                </geometry>
+                <origin rpy="1.5708 0 0" xyz="0 0 0" />
+            </collision>
+        </link>
+        <link name="wheel_rear_r2">
+            <inertial>
+                <mass value="3.0" />
+                <origin rpy="0 0 0" xyz="0.0 -0.00073938 0.0" />
+                <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                    iyy="0.002" iyz="0.0" izz="0.001" />
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh filename="package://urdf_rby/meshes/WHEEL.dae" scale=".35 .35 .35" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="0.04" length="0.03" />
+                </geometry>
+                <origin rpy="1.5708 0 0" xyz="0 0 0" />
+            </collision>
+        </link>
+
+        <link name="wheel_rear_l1">
+            <inertial>
+                <mass value="3.0" />
+                <origin rpy="0 0 0" xyz="0.0 0.00073938 0.0" />
+                <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                    iyy="0.002" iyz="0.0" izz="0.001" />
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh filename="package://urdf_rby/meshes/WHEEL.dae" scale=".33 .33 .33" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="0.04" length="0.03" />
+                </geometry>
+                <origin rpy="1.5708 0 0" xyz="0 0 0" />
+            </collision>
+        </link>
+
+        <link name="wheel_rear_l2">
+            <inertial>
+                <mass value="3.0" />
+                <origin rpy="0 0 0" xyz="0.0 0.00073938 0.0" />
+                <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                    iyy="0.002" iyz="0.0" izz="0.001" />
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh filename="package://urdf_rby/meshes/WHEEL.dae" scale=".33 .33 .33" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="0.04" length="0.03" />
+                </geometry>
+                <origin rpy="1.5708 0 0" xyz="0 0 0" />
+            </collision>
+        </link>
+
 
         <!-- Torso Links -->
         <link name="link_torso_0">
@@ -639,7 +717,7 @@
             <parent link="base" />
             <child link="wheel_r" />
             <origin rpy="0.0 0.0 0.0" xyz="0.228 -0.265 0.1" />
-            <axis xyz="0 -1 0" />
+            <axis xyz="0 1 0" />
             <limit effort="1000.0" velocity="500.707963268" />
         </joint>
 
@@ -647,8 +725,40 @@
             <parent link="base" />
             <child link="wheel_l" />
             <origin rpy="0.0 0.0 0.0" xyz="0.228 0.265 0.1" />
-            <axis xyz="0 -1 0" />
+            <axis xyz="0 1 0" />
             <limit effort="1000.0" velocity="500.707963268" />
+        </joint>
+
+        <joint name="right_rear_wheel1" type="continuous">
+            <parent link="base" />
+            <child link="wheel_rear_r1" />
+            <origin rpy="0.0 0.0 0.0" xyz="-0.277 -0.09999999 0.05" />
+            <axis xyz="0 1 0" />
+            <limit effort="100.0" velocity="500.707963268" />
+        </joint>
+
+        <joint name="right_rear_wheel2" type="continuous">
+            <parent link="base" />
+            <child link="wheel_rear_r2" />
+            <origin rpy="0.0 0.0 0.0" xyz="-0.277 -0.07 0.05" />
+            <axis xyz="0 1 0" />
+            <limit effort="100.0" velocity="500.707963268" />
+        </joint>
+
+        <joint name="left_rear_wheel1" type="continuous">
+            <parent link="base" />
+            <child link="wheel_rear_l1" />
+            <origin rpy="0.0 0.0 0.0" xyz="-0.277 0.09999999 0.05" />
+            <axis xyz="0 1 0" />
+            <limit effort="100.0" velocity="500.707963268" />
+        </joint>
+
+        <joint name="left_rear_wheel2" type="continuous">
+            <parent link="base" />
+            <child link="wheel_rear_l2" />
+            <origin rpy="0.0 0.0 0.0" xyz="-0.277 0.07 0.05" />
+            <axis xyz="0 1 0" />
+            <limit effort="100.0" velocity="500.707963268" />
         </joint>
 
         <!-- Torso Joints -->
